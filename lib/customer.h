@@ -1,7 +1,7 @@
 #ifndef CUSTOMER_H
 #define CUSTOMER_H
 #include <string>
-
+#include "_globals.h"
 /*
 Customer Class
 

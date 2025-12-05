@@ -5,6 +5,7 @@
 #include "customer.h"
 #include "product.h"
 #include "..\colorLib\parentTerminal.h"
+#include "_globals.h"
 /*
 Represents a customer’s order.
 This class demonstrates composition: thus, it contains both Customer and Product objects.

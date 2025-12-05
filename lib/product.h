@@ -1,6 +1,7 @@
 #ifndef PRODUCT_H
 #define PRODUCT_H
 #include <string>
+#include "_globals.h"
 /*
 Product Class
 
