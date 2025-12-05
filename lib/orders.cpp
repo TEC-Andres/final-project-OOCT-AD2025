@@ -4,7 +4,7 @@
 Order::Order() : orderCount(0), total(0.0) {}
 Order::Order(const Customer& cust) : customer(cust), orderCount(0), total(0.0) {}
 
-void Order::addProduct(Product* product, int quantity) {
+void Order::addProduct(Product& product, int quantity) {
     if (orderCount >= 10) {
         std::cout << "Order limit reached. Cannot add more products." << std::endl;
         return;
@@ -16,14 +16,14 @@ void Order::addProduct(Product* product, int quantity) {
     }
 
     // Check and reduce stock before adding to the order
-    if (!product->reduceStock(quantity)) {
-        std::cout << "Not enough stock for product '" << product->getName()
-                  << "'. Available: " << product->getStock()
+    if (!product.reduceStock(quantity)) {
+        std::cout << "Not enough stock for product '" << product.getName()
+                  << "'. Available: " << product.getStock()
                   << ". Requested: " << quantity << "." << std::endl;
         return;
     }
 
-    orderedProducts[orderCount] = product;
+    orderedProducts[orderCount] = product; // store a copy to compose Product in Order
     quantities[orderCount] = quantity;
     orderCount++;
 }
@@ -31,7 +31,7 @@ void Order::addProduct(Product* product, int quantity) {
 void Order::calculateTotal() {
     total = 0.0;
     for (int i = 0; i < orderCount; ++i) {
-        total += orderedProducts[i]->getPrice() * quantities[i];
+        total += orderedProducts[i].getPrice() * quantities[i];
     }
 }
 
@@ -39,11 +39,11 @@ void Order::showOrderSummary() const {
     double sumTotal = 0.0;
     std::cout << "Order Summary for Customer: " << customer.getName() << std::endl;
     for (int i = 0; i < orderCount; ++i) {
-        double subtotal = orderedProducts[i]->getPrice() * quantities[i];
+        double subtotal = orderedProducts[i].getPrice() * quantities[i];
         sumTotal += subtotal;
-        std::cout << "Product: " << orderedProducts[i]->getName()
+        std::cout << "Product: " << orderedProducts[i].getName()
                   << ", Quantity: " << quantities[i]
-                  << ", Price per unit: $" << orderedProducts[i]->getPrice()
+                  << ", Price per unit: $" << orderedProducts[i].getPrice()
                   << ", Subtotal: $" << subtotal
                   << std::endl;
     }

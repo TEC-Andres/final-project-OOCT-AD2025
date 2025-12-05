@@ -29,7 +29,7 @@ getTotal method
 class Order {
 private:
     Customer customer;
-    Product* orderedProducts[10];
+    Product orderedProducts[10];
     int quantities[10];
     int orderCount;
     double total;
@@ -38,7 +38,7 @@ public:
     Order(); // Default constructor
     Order(const Customer& cust); // Parameterized constructor
 
-    void addProduct(Product* product, int quantity);
+    void addProduct(Product& product, int quantity);
     void calculateTotal();
     void showOrderSummary() const;
     double getTotal() const;

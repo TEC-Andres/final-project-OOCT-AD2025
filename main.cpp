@@ -6,6 +6,7 @@
 #include <string>
 #include "colorLib/parentTerminal.h"
 #include <limits>
+#include "lib/_globals.h"
 
 /*
 Creates an array of Product objects (store inventory).
@@ -20,9 +21,6 @@ Display an order summary with the total amount.
 */
 
 int main() {
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    ParentTerminal terminal;
-
     Product inventory[5] = {
         Product(1, "Xbox", 650.00, 10),
         Product(2, "PS5", 500.0, 20),
@@ -30,17 +28,6 @@ int main() {
         Product(4, "TV 20*20 inches", 100.0, 15),
         Product(5, "Keyboard", 40.0, 30)
     };
-
-    std::cout << "=== Store Inventory ===" << std::endl;
-    /**
-     * 
-     * 
-     * 
-     * */
-    for (const auto& product : inventory) {
-        product.printProduct();
-        std::cout << "------------------------" << std::endl;
-    }
 
     // Collect customer data
     std::string custName, custEmail;
@@ -56,6 +43,12 @@ int main() {
     customer.printCustomer();
     std::cout << "------------------------" << std::endl;
 
+    std::cout << "=== Store Inventory ===" << std::endl;
+    for (const auto& product : inventory) {
+        product.printProduct();
+        std::cout << "------------------------" << std::endl;
+    }
+    
     Order order(customer);
     int prodId, quantity;
     while (true) {
@@ -85,7 +78,7 @@ int main() {
             terminal.printColor(hConsole, 0xFF0000, "Invalid quantity. Please enter a value between 1 and %d.\n", selectedProduct->getStock());
             continue;
             }
-            order.addProduct(selectedProduct, quantity);
+            order.addProduct(*selectedProduct, quantity);
             terminal.printColor(hConsole, 0x00FF00, "Product added to order successfully!\n");
         } else {
             terminal.printColor(hConsole, 0xFF0000, "Product ID not found. Please try again.\n");
