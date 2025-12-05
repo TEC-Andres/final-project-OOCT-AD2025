@@ -2,6 +2,6 @@
 #include <windows.h>
 #include "../colorLib/parentTerminal.h"
 
-
-HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-ParentTerminal terminal;
+// Declare global handles/objects as extern to avoid multiple-definition
+extern HANDLE hConsole;
+extern ParentTerminal terminal;

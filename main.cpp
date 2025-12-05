@@ -31,13 +31,27 @@ int main() {
         Product(5, "Keyboard", 40.0, 30)
     };
 
-    std::cout << "Store Inventory:" << std::endl;
+    std::cout << "=== Store Inventory ===" << std::endl;
+    /**
+     * 
+     * 
+     * 
+     * */
     for (const auto& product : inventory) {
         product.printProduct();
         std::cout << "------------------------" << std::endl;
     }
 
-    Customer customer(1, "Alito", "A01287676@tec.mx");
+    // Collect customer data
+    std::string custName, custEmail;
+    std::cout << "\n=== Customer Information ===" << std::endl;
+    std::cout << "Enter your name: ";
+    std::getline(std::cin, custName);
+    std::cout << "Enter your email: ";
+    std::getline(std::cin, custEmail);
+    std::cout << "------------------------" << std::endl;
+
+    Customer customer(1, custName, custEmail);
     std::cout << "Customer Info:" << std::endl;
     customer.printCustomer();
     std::cout << "------------------------" << std::endl;
@@ -72,12 +86,13 @@ int main() {
             continue;
             }
             order.addProduct(selectedProduct, quantity);
+            terminal.printColor(hConsole, 0x00FF00, "Product added to order successfully!\n");
         } else {
             terminal.printColor(hConsole, 0xFF0000, "Product ID not found. Please try again.\n");
         }
     }
 
-    terminal.printColor(hConsole, 0x00FF00, "Order placed successfully!\n");
+    terminal.printColor(hConsole, 0x00FF00, "\nOrder placed successfully!\n");
 
     std::cout << "Order Summary:" << std::endl;
     order.showOrderSummary();

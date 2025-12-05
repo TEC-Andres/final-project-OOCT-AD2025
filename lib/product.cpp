@@ -1,5 +1,6 @@
 #include "product.h"
 #include <iostream>
+#include <sstream>
 
 Product::Product() : id(0), name(""), price(0.0), stock(0) {}
 Product::Product(int prodId, const std::string& prodName, double prodPrice, int prodStock)
@@ -38,10 +39,20 @@ int Product::getStock() const {
 }
 
 void Product::printProduct() const {
-    std::cout << "Product ID: " << id << std::endl;
-    std::cout << "Name: " << name << std::endl;
-    std::cout << "Price: $" << price << std::endl;
-    std::cout << "Stock: " << stock << std::endl;
+    const char* labels[] = {"ID", "Name", "Price", "Stock"};
+    const char* formats[] = {"%s", "%s", "$%s", "%s"};
+
+    std::string idStr = std::to_string(id);
+    std::ostringstream oss;
+    oss.setf(std::ios::fixed);
+    oss.precision(2);
+    oss << price;
+    std::string priceStr = oss.str();
+    std::string stockStr = std::to_string(stock);
+
+    const void* values[] = {idStr.c_str(), name.c_str(), priceStr.c_str(), stockStr.c_str()};
+
+    terminal.prettyDisplay(hConsole, 0xAFAFAF, labels, formats, values, 4);
 }
 
 bool Product::reduceStock(int qty) {

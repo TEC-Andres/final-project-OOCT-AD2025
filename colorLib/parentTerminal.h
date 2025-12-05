@@ -9,6 +9,7 @@ class ParentTerminal {
 public:
     ParentTerminal();
     bool printColor(HANDLE hConsole, COLORREF fg, const char* text, ...);
+    bool prettyDisplay(HANDLE hConsole, COLORREF fg, const char* labels[], const char* formats[], const void* values[], int count);
 };
 
 #endif // PARENTTERMINAL_H
