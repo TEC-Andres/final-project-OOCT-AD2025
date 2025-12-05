@@ -13,9 +13,9 @@ endif()
 
 file(GLOB MAIN_SOURCES "${CMAKE_SOURCE_DIR}/*.cpp")
 file(GLOB LIB_SOURCES "${CMAKE_SOURCE_DIR}/lib/*.cpp")
+file(GLOB COLORLIB_SOURCES "${CMAKE_SOURCE_DIR}/colorLib/*.cpp")
 
-
-add_executable(main ${MAIN_SOURCES} ${LIB_SOURCES})
+add_executable(main ${MAIN_SOURCES} ${LIB_SOURCES} ${COLORLIB_SOURCES})
 set_target_properties(main PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}"
 )

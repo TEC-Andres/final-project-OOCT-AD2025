@@ -3,6 +3,7 @@
 #include "lib/orders.h"
 #include <iostream>
 #include <string>
+#include "colorLib/parentTerminal.h"
 
 /*
 Creates an array of Product objects (store inventory).
@@ -17,7 +18,10 @@ Display an order summary with the total amount.
 */
 
 int main() {
-    // Create store inventory
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    ParentTerminal terminal;
+
+
     Product inventory[5] = {
         Product(1, "Xbox", 650.00, 10),
         Product(2, "PS5", 500.0, 20),
@@ -26,19 +30,17 @@ int main() {
         Product(5, "Keyboard", 40.0, 30)
     };
 
-    // Display inventory
     std::cout << "Store Inventory:" << std::endl;
     for (const auto& product : inventory) {
         product.printProduct();
         std::cout << "------------------------" << std::endl;
     }
 
-    // Create a customer
     Customer customer(1, "John Doe", "john.doe@example.com");
     std::cout << "Customer Info:" << std::endl;
     customer.printCustomer();
     std::cout << "------------------------" << std::endl;
-    // Create an order for the customer
+
     Order order(customer);
     int prodId, quantity;
     while (true) {
@@ -48,7 +50,6 @@ int main() {
             break;
         }
 
-        // Find product by ID
         Product* selectedProduct = nullptr;
         for (auto& product : inventory) {
             if (product.getId() == prodId) {
@@ -65,7 +66,9 @@ int main() {
             std::cout << "Product ID not found. Please try again." << std::endl;
         }
     }
-    // Display order summary
+
+    terminal.printColor(hConsole, 0x00FF00, "Order placed successfully!\n");
+
     std::cout << "Order Summary:" << std::endl;
     order.showOrderSummary();
     std::cout << "Total Amount: $" << order.getTotal() << std::endl;
