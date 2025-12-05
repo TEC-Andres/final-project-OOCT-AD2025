@@ -22,15 +22,18 @@ void Order::calculateTotal() {
 }
 
 void Order::showOrderSummary() const {
+    double sumTotal = 0.0;
     std::cout << "Order Summary for Customer: " << customer.getName() << std::endl;
     for (int i = 0; i < orderCount; ++i) {
+        double subtotal = orderedProducts[i]->getPrice() * quantities[i];
+        sumTotal += subtotal;
         std::cout << "Product: " << orderedProducts[i]->getName()
                   << ", Quantity: " << quantities[i]
                   << ", Price per unit: $" << orderedProducts[i]->getPrice()
-                  << ", Subtotal: $" << orderedProducts[i]->getPrice() * quantities[i]
+                  << ", Subtotal: $" << subtotal
                   << std::endl;
     }
-    std::cout << "Total Amount: $" << total << std::endl;
+    std::cout << "Total Amount: $" << sumTotal << std::endl;
 }
 
 double Order::getTotal() const {
