@@ -38,6 +38,7 @@ public:
     std::string getName() const;
     double getPrice() const;
     int getStock() const;
+    bool reduceStock(int qty);
 
     void printProduct() const; // display product details.
 };

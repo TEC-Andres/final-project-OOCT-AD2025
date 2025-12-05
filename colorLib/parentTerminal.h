@@ -7,6 +7,7 @@
 
 class ParentTerminal {
 public:
+    ParentTerminal();
     bool printColor(HANDLE hConsole, COLORREF fg, const char* text, ...);
 };
 

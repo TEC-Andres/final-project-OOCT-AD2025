@@ -43,3 +43,10 @@ void Product::printProduct() const {
     std::cout << "Price: $" << price << std::endl;
     std::cout << "Stock: " << stock << std::endl;
 }
+
+bool Product::reduceStock(int qty) {
+    if (qty <= 0) return false;
+    if (qty > stock) return false;
+    stock -= qty;
+    return true;
+}

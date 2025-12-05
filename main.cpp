@@ -73,7 +73,7 @@ int main() {
             }
             order.addProduct(selectedProduct, quantity);
         } else {
-            std::cout << "Product ID not found. Please try again." << std::endl;
+            terminal.printColor(hConsole, 0xFF0000, "Product ID not found. Please try again.\n");
         }
     }
 

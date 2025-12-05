@@ -5,13 +5,27 @@ Order::Order() : orderCount(0), total(0.0) {}
 Order::Order(const Customer& cust) : customer(cust), orderCount(0), total(0.0) {}
 
 void Order::addProduct(Product* product, int quantity) {
-    if (orderCount < 10) {
-        orderedProducts[orderCount] = product;
-        quantities[orderCount] = quantity;
-        orderCount++;
-    } else {
+    if (orderCount >= 10) {
         std::cout << "Order limit reached. Cannot add more products." << std::endl;
+        return;
     }
+
+    if (quantity <= 0) {
+        std::cout << "Invalid quantity. Must be at least 1." << std::endl;
+        return;
+    }
+
+    // Check and reduce stock before adding to the order
+    if (!product->reduceStock(quantity)) {
+        std::cout << "Not enough stock for product '" << product->getName()
+                  << "'. Available: " << product->getStock()
+                  << ". Requested: " << quantity << "." << std::endl;
+        return;
+    }
+
+    orderedProducts[orderCount] = product;
+    quantities[orderCount] = quantity;
+    orderCount++;
 }
 
 void Order::calculateTotal() {

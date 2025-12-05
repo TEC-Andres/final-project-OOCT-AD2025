@@ -4,6 +4,7 @@
 #pragma once
 #include "customer.h"
 #include "product.h"
+#include "..\colorLib\parentTerminal.h"
 /*
 Represents a customer’s order.
 This class demonstrates composition: thus, it contains both Customer and Product objects.

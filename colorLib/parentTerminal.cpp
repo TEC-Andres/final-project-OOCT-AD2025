@@ -1,6 +1,8 @@
 #include "parentTerminal.h"
 #include <cstdio>
 
+ParentTerminal::ParentTerminal() {}
+
 bool ParentTerminal::printColor(HANDLE hConsole, COLORREF fg, const char* text, ...) {
     // Extract RGB values from COLORREF
     int r = GetRValue(fg);
