@@ -35,11 +35,17 @@ void Order::addProduct(Product& product, int quantity) {
 /**
  * Calculates the total amount for the order by summing up the price of each product multiplied by its quantity.
  */
-void Order::calculateTotal() {
+float Order::calculateTotal() {
     total = 0.0;
     for (int i = 0; i < orderCount; ++i) {
         total += orderedProducts[i].getPrice() * quantities[i];
     }
+    if (total > 2000.0) {
+        terminal.printColor(hConsole, 0x00FF00, "A 10%% discount has been applied to your order for exceeding $2000!\n");
+        total -= total * 0.10;
+    }
+
+    return static_cast<float>(total);
 }
 
 /**
@@ -47,24 +53,21 @@ void Order::calculateTotal() {
  * If the total amout is over $5000, a discount of 10% is applied.
  */
 void Order::showOrderSummary() const {
-    double sumTotal = 0.0;
     std::cout << "Order Summary for Customer: " << customer.getName() << std::endl;
+    std::cout << "----------------------------------------" << std::endl;
     for (int i = 0; i < orderCount; ++i) {
         double subtotal = orderedProducts[i].getPrice() * quantities[i];
-        sumTotal += subtotal;
         std::cout << "Product: " << orderedProducts[i].getName()
                   << ", Quantity: " << quantities[i]
                   << ", Price per unit: $" << orderedProducts[i].getPrice()
                   << ", Subtotal: $" << subtotal
                   << std::endl;
     }
-    if (sumTotal > 5000.0) {
-        double discount = sumTotal * 0.10;
-        sumTotal -= discount;
-        std::cout << "Discount Applied: $" << discount << std::endl;
-    }
+    std::cout << "----------------------------------------" << std::endl << std::endl;
 
-    std::cout << "Total Amount: $" << sumTotal << std::endl;
+
+    float total = const_cast<Order*>(this)->calculateTotal();
+    terminal.printColor(hConsole, 0xFFFF00, "Total Amount: $%.2f\n", total);
 }
 
 double Order::getTotal() const {

@@ -39,7 +39,7 @@ public:
     Order(const Customer& cust); // Parameterized constructor
 
     void addProduct(Product& product, int quantity);
-    void calculateTotal();
+    float calculateTotal();
     void showOrderSummary() const;
     double getTotal() const;
 };
