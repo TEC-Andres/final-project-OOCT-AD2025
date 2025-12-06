@@ -1,11 +1,14 @@
 #define NOMINMAX
+#include <iostream>
+#include <string>
+#include <tuple>
+#include <limits>
+
 #include "lib/product.h"
 #include "lib/customer.h"
 #include "lib/orders.h"
-#include <iostream>
-#include <string>
+#include "lib/preamble.h"
 #include "colorLib/parentTerminal.h"
-#include <limits>
 #include "lib/_globals.h"
 
 /*
@@ -21,6 +24,8 @@ Display an order summary with the total amount.
 */
 
 int main() {
+    Preamble preamble;
+
     Product inventory[5] = {
         Product(1, "Xbox", 650.00, 10),
         Product(2, "PS5", 500.0, 20),
@@ -29,14 +34,7 @@ int main() {
         Product(5, "Keyboard", 40.0, 30)
     };
 
-    // Collect customer data
-    std::string custName, custEmail;
-    std::cout << "\n=== Customer Information ===" << std::endl;
-    std::cout << "Enter your name: ";
-    std::getline(std::cin, custName);
-    std::cout << "Enter your email: ";
-    std::getline(std::cin, custEmail);
-    std::cout << "------------------------" << std::endl;
+    auto [custName, custEmail] = preamble.clientData();
 
     Customer customer(1, custName, custEmail);
     std::cout << "Customer Info:" << std::endl;
