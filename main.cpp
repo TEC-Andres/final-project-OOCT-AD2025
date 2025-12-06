@@ -28,7 +28,7 @@ int main() {
     Preamble preamble;
 
     Product inventory[5] = {
-        Product(1, "Xbox", 650.00, 10),
+        Product(1, "Xbox", 650.00, 5),
         Product(2, "PS5", 500.0, 20),
         Product(3, "Bose Headphones", 30.0, 50),
         Product(4, "TV 20*20 inches", 100.0, 15),
