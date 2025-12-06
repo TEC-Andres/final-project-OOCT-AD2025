@@ -4,6 +4,10 @@
 Order::Order() : orderCount(0), total(0.0) {}
 Order::Order(const Customer& cust) : customer(cust), orderCount(0), total(0.0) {}
 
+/**
+ * Adds a product and its quantity to the order.
+ * Checks if there is enough stock before adding.
+ */
 void Order::addProduct(Product& product, int quantity) {
     if (orderCount >= 10) {
         std::cout << "Order limit reached. Cannot add more products." << std::endl;
@@ -28,6 +32,9 @@ void Order::addProduct(Product& product, int quantity) {
     orderCount++;
 }
 
+/**
+ * Calculates the total amount for the order by summing up the price of each product multiplied by its quantity.
+ */
 void Order::calculateTotal() {
     total = 0.0;
     for (int i = 0; i < orderCount; ++i) {
@@ -35,6 +42,10 @@ void Order::calculateTotal() {
     }
 }
 
+/**
+ * Displays a summary of the order, including product details, quantities, subtotals, and the total amount.
+ * If the total amout is over $5000, a discount of 10% is applied.
+ */
 void Order::showOrderSummary() const {
     double sumTotal = 0.0;
     std::cout << "Order Summary for Customer: " << customer.getName() << std::endl;
@@ -47,6 +58,12 @@ void Order::showOrderSummary() const {
                   << ", Subtotal: $" << subtotal
                   << std::endl;
     }
+    if (sumTotal > 5000.0) {
+        double discount = sumTotal * 0.10;
+        sumTotal -= discount;
+        std::cout << "Discount Applied: $" << discount << std::endl;
+    }
+
     std::cout << "Total Amount: $" << sumTotal << std::endl;
 }
 

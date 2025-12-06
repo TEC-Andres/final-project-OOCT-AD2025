@@ -38,6 +38,10 @@ int Product::getStock() const {
     return stock;
 }
 
+/**
+ * display product details. A.k.a, ID, Name, Price, Stock
+ * this is done in a fancy way with colors using ParentTerminal class
+ */
 void Product::printProduct() const {
     const char* labels[] = {"ID", "Name", "Price", "Stock"};
     const char* formats[] = {"%s", "%s", "$%s", "%s"};
@@ -55,6 +59,10 @@ void Product::printProduct() const {
     terminal.prettyDisplay(hConsole, 0xAFAFAF, labels, formats, values, 4);
 }
 
+/**
+ * Reduces the stock by the specified quantity if enough stock is available.
+ * Returns true if the stock was successfully reduced, false otherwise.
+ */
 bool Product::reduceStock(int qty) {
     if (qty <= 0) return false;
     if (qty > stock) return false;

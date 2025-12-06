@@ -29,8 +29,11 @@ std::string Customer::getEmail() const {
     return email;
 }
 
+/**
+ * display customer info.
+ */
 void Customer::printCustomer() const {
-    std::cout << "Customer ID: " << id << std::endl;
-    std::cout << "Name: " << name << std::endl;
-    std::cout << "Email: " << email << std::endl;
+    std::cout << "Welcome back, " << name << "!" << std::endl;
+    std::cout << "Your customer ID: " << id << std::endl;
+    std::cout << "Your email: " << email << std::endl;
 }
