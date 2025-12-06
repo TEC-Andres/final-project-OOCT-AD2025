@@ -1,8 +1,9 @@
 #define NOMINMAX
 #include <iostream>
 #include <string>
-#include <tuple>
 #include <limits>
+#include <thread>
+#include <chrono>
 
 #include "lib/product.h"
 #include "lib/customer.h"
@@ -34,22 +35,48 @@ int main() {
         Product(5, "Keyboard", 40.0, 30)
     };
 
-    auto [custName, custEmail] = preamble.clientData();
+    Customer customer[4] = {
+        Customer(101, "Alejandro Salinas", "a01287454@tec.mx"),
+        Customer(102, "Andres Rodriguez", "a01287002@tec.mx"),
+        Customer(103, "Vicente Isaac Roldan", "a01287176@tec.mx"),
+        Customer(104, "Iker Cossio", "a01283181@tec.mx")
+    };
 
-    Customer customer(1, custName, custEmail);
-    std::cout << "Customer Info:" << std::endl;
-    customer.printCustomer();
-    std::cout << "------------------------" << std::endl;
+    Customer* selectedCustomer = nullptr;
+    while (true) {
+        auto [custName, custId, custEmail] = preamble.clientData();
+        custName = preamble.capitalizeName(custName);
 
-    std::cout << "=== Store Inventory ===" << std::endl;
-    for (const auto& product : inventory) {
-        product.printProduct();
-        std::cout << "------------------------" << std::endl;
+        for (auto& cust : customer) {
+            if (
+                preamble.checkIfClientDataExists(custName) &&
+                cust.getName() == custName &&
+                cust.getId() == custId &&
+                cust.getEmail() == custEmail
+            ) {
+                selectedCustomer = &cust;
+                break;
+            }
+        }
+
+        if (selectedCustomer) {
+            selectedCustomer->printCustomer();
+            std::cout << std::endl;
+            break;
+        } else {
+            terminal.printColor(hConsole, 0xFF0000, "The customer data you entered does not match any record. Please try again.\n");
+        }
     }
-    
-    Order order(customer);
+    Order order(*selectedCustomer);
     int prodId, quantity;
     while (true) {
+        std::cout << "=== Store Inventory ===" << std::endl;
+        for (const auto& product : inventory) {
+            product.printProduct();
+            std::cout << "------------------------" << std::endl;
+        }
+
+
         std::cout << "Enter Product ID to add to order (0 to finish): ";
         if (!(std::cin >> prodId)) {
             std::cin.clear();
@@ -69,23 +96,23 @@ int main() {
             break;
             }
         }
-        if (selectedProduct) {
-            std::cout << "Enter quantity for " << selectedProduct->getName() << ": ";
-            std::cin >> quantity;
-            if (quantity <= 0 || quantity > selectedProduct->getStock()) {
-            terminal.printColor(hConsole, 0xFF0000, "Invalid quantity. Please enter a value between 1 and %d.\n", selectedProduct->getStock());
-            continue;
-            }
+        if (selectedProduct && 
+            (std::cout << "Enter quantity for " << selectedProduct->getName() << ": ", std::cin >> quantity, 
+             quantity > 0 && quantity <= selectedProduct->getStock())) {
             order.addProduct(*selectedProduct, quantity);
             terminal.printColor(hConsole, 0x00FF00, "Product added to order successfully!\n");
         } else {
-            terminal.printColor(hConsole, 0xFF0000, "Product ID not found. Please try again.\n");
+            terminal.printColor(hConsole, 0xFF0000, selectedProduct ? 
+            "Invalid quantity. Please enter a value between 1 and %d.\n" : 
+            "Product ID not found. Please try again.\n", 
+            selectedProduct ? selectedProduct->getStock() : 0);
         }
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000)); 
+        preamble.clear();
     }
 
     terminal.printColor(hConsole, 0x00FF00, "\nOrder placed successfully!\n");
 
-    std::cout << "Order Summary:" << std::endl;
     order.showOrderSummary();
 
     return 0;
