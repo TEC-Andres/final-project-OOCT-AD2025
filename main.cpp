@@ -99,8 +99,9 @@ int main() {
         if (selectedProduct && 
             (std::cout << "Enter quantity for " << selectedProduct->getName() << ": ", std::cin >> quantity, 
              quantity > 0 && quantity <= selectedProduct->getStock())) {
-            order.addProduct(*selectedProduct, quantity);
-            terminal.printColor(hConsole, 0x00FF00, "Product added to order successfully!\n");
+            if (order.addProduct(*selectedProduct, quantity)) {
+                terminal.printColor(hConsole, 0x00FF00, "Product added to order successfully!\n");
+            }
         } else {
             terminal.printColor(hConsole, 0xFF0000, selectedProduct ? 
             "Invalid quantity. Please enter a value between 1 and %d.\n" : 

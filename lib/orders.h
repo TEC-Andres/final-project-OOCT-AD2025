@@ -38,7 +38,7 @@ public:
     Order(); // Default constructor
     Order(const Customer& cust); // Parameterized constructor
 
-    void addProduct(Product& product, int quantity);
+    bool addProduct(Product& product, int quantity);
     float calculateTotal();
     void showOrderSummary() const;
     double getTotal() const;

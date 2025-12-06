@@ -8,28 +8,43 @@ Order::Order(const Customer& cust) : customer(cust), orderCount(0), total(0.0) {
  * Adds a product and its quantity to the order.
  * Checks if there is enough stock before adding.
  */
-void Order::addProduct(Product& product, int quantity) {
-    if (orderCount >= 10) {
-        std::cout << "Order limit reached. Cannot add more products." << std::endl;
-        return;
-    }
+bool Order::addProduct(Product& product, int quantity) {
+    const int MAX_QUANTITY_PER_ITEM = 10;
 
     if (quantity <= 0) {
-        std::cout << "Invalid quantity. Must be at least 1." << std::endl;
-        return;
+        terminal.printColor(hConsole, 0xFF0000, "Invalid quantity. Must be at least 1.\n");
+        return false;
+    }
+
+    // Check if this product is already in the order
+    int existingIndex = -1;
+    for (int i = 0; i < orderCount; ++i) {
+        if (orderedProducts[i].getName() == product.getName()) {
+            existingIndex = i;
+            break;
+        }
+    }
+
+    int currentQuantity = (existingIndex != -1) ? quantities[existingIndex] : 0;
+    if (currentQuantity + quantity > MAX_QUANTITY_PER_ITEM) {
+        terminal.printColor(hConsole, 0xFF0000, "Cannot add more than %d units of '%s' to the order.\n", MAX_QUANTITY_PER_ITEM, product.getName().c_str());
+        return false;
     }
 
     // Check and reduce stock before adding to the order
     if (!product.reduceStock(quantity)) {
-        std::cout << "Not enough stock for product '" << product.getName()
-                  << "'. Available: " << product.getStock()
-                  << ". Requested: " << quantity << "." << std::endl;
-        return;
+        terminal.printColor(hConsole, 0xFF0000, "Not enough stock for product '%s'. Available: %d. Requested: %d.\n", product.getName().c_str(), product.getStock(), quantity);
+        return false;
     }
 
-    orderedProducts[orderCount] = product; // store a copy to compose Product in Order
-    quantities[orderCount] = quantity;
-    orderCount++;
+    if (existingIndex != -1) {
+        quantities[existingIndex] += quantity;
+    } else {
+        orderedProducts[orderCount] = product;
+        quantities[orderCount] = quantity;
+        orderCount++;
+    }
+    return true;
 }
 
 /**
