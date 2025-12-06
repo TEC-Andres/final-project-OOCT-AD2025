@@ -8,7 +8,10 @@
 
 class Preamble {
 public:
-    std::tuple<std::string, std::string> clientData();
+    std::tuple<std::string, int, std::string> clientData();
+    std::string capitalizeName(const std::string& name);
+    bool checkIfClientDataExists(const std::string& custName);
+    void clear();
 };
 
 #endif // PREAMBLE_H
