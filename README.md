@@ -24,7 +24,7 @@ The coding style we mainly used on the project was object oriented programming (
 ### Our classes
 The entire project relies on these five classes: `Preamble`, `Customer`, `Product`, `Order`, and `ParentTerminal`. `Order` is a composition of `Product` and `Customer`; having a "has-a" relationship between the objects. The structure allows us to perform some aggregiation behaviour by doing in-between classes certian operations (e.g: the total calculation to establish the final price) between product and order. 
 
-
+![Flow Chart](docs/img/flowChart.png)
 
 The `Preamble` and `ParentTerminal` classes serve as abstractions. `Preamble` handles credential management, including input capture and normalization, while `ParentTerminal` provides a simplified interface for interacting with the WIN32 API, allowing the use of its features without directly dealing with the complexities of the library.
 
